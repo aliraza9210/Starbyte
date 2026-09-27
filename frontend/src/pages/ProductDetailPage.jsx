@@ -29,10 +29,20 @@ const ProductImageDisplay = ({ product }) => {
   const [c1, c2] = colors[catName] || ['#6366f1', '#8b5cf6'];
   const initials = product.name?.split(' ').slice(0, 2).map(w => w[0]).join('') || 'SB';
 
+  const thumbSrc = product.thumbnail || (product.slug ? `/products/${product.slug}.svg` : null);
+
   return (
     <div className="product-image-container">
-      {product.thumbnail ? (
-        <img src={product.thumbnail} alt={product.name} className="product-main-image" />
+      {thumbSrc ? (
+        <img
+          src={thumbSrc}
+          alt={product.name}
+          className="product-main-image"
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.style.display = 'none';
+          }}
+        />
       ) : (
         <div className="product-image-placeholder" style={{
           background: `linear-gradient(135deg, ${c1}18 0%, ${c2}18 100%)`,

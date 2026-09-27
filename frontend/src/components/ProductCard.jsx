@@ -120,12 +120,16 @@ export default function ProductCard({ product, variant = 'default' }) {
         <Link to={`/product/${product.slug}`} style={{ textDecoration: 'none', display: 'block', color: 'inherit' }}>
           {/* Card Top / Visual Banner */}
           <div className="card-thumb-container">
-            {product.thumbnail ? (
+            {product.thumbnail || product.slug ? (
               <img
-                src={product.thumbnail}
+                src={product.thumbnail || `/products/${product.slug}.svg`}
                 alt={product.name}
                 loading="lazy"
                 className="card-thumb-img"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.style.display = 'none';
+                }}
               />
             ) : (
               <ProductPlaceholder category={product.category?.name} name={product.name} />

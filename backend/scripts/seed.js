@@ -533,6 +533,9 @@ const seed = async () => {
     let skipped = 0;
 
     for (const prod of products) {
+      if (!prod.thumbnail) {
+        prod.thumbnail = `/products/${prod.slug}.svg`;
+      }
       const existing = await Product.findOne({ slug: prod.slug });
       if (!existing) {
         await Product.create(prod);
